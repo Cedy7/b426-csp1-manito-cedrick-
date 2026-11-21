@@ -10,6 +10,9 @@ public class Artist {
         this.name = name;
     }
 
+    // additional constructor overloading
+    public Artist(int id) { this.id = id; }
+
     public Artist(int id, String name) {
         this.id = id;
         this.name = name;
