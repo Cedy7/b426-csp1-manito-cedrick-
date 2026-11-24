@@ -1,18 +1,14 @@
 package com.joysistvi.recordingapp;
 
 import com.joysistvi.recordingapp.config.DbConnection;
-import com.joysistvi.recordingapp.repository.AlbumRepository;
-import com.joysistvi.recordingapp.repository.AlbumRepositoryImpl;
-import com.joysistvi.recordingapp.repository.ArtistRepository;
-import com.joysistvi.recordingapp.repository.ArtistRepositoryImpl;
-import com.joysistvi.recordingapp.service.AlbumService;
-import com.joysistvi.recordingapp.service.AlbumServiceImpl;
-import com.joysistvi.recordingapp.service.ArtistService;
-import com.joysistvi.recordingapp.service.ArtistServiceImpl;
+import com.joysistvi.recordingapp.repository.*;
+import com.joysistvi.recordingapp.service.*;
 import com.joysistvi.recordingapp.view.AlbumView;
 import com.joysistvi.recordingapp.view.ArtistView;
+import com.joysistvi.recordingapp.view.UserView;
 
 import java.util.Scanner;
+
 
 // Entry Point
 public class App {
@@ -32,6 +28,13 @@ public class App {
         AlbumView albumView = new AlbumView(albumService, scanner);
 
 
+        // 3. Wire User (Repository -> Service -> View)
+        UserRepository userRepository = new UserRepositoryImpl(dbConnection);
+        UserService userService = new UserServiceImpl(userRepository);
+        UserView userView = new UserView(userService, scanner);
+
+
+
 
 //        artistView.promptCreateArtist();
 //        artistView.promptUpdateArtist();
@@ -45,6 +48,7 @@ public class App {
 //        artistView.displayAllArchivedArtist();
         artistView.promptSearchArtists();
         artistView.displayAllArtist();
+
 
 
     }
