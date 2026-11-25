@@ -8,28 +8,31 @@ import java.util.List;
 public interface ArtistRepository {
 
     // Read Artists(Not inside archive)
-    public List<Artist> findAllActive();
+    List<Artist> findAllActive();
 
     // !!! this will be used for promptRestoreArtist() !!!
     // !!! still not tested !!!
     // Read Artists(Inside archive)
-    public List<Artist> findAllArchived();
+    List<Artist> findAllArchived();
 
     // Create Artist
-    public boolean save(Artist artists);
+    boolean save(Artist artists);
 
     // Update Artist
-    public boolean update(int id, Artist artists);
+    boolean update(int id, Artist artists);
 
     // Hard Delete of Artist
-    public boolean deleteById(int id);
+    boolean deleteById(int id);
 
     // Soft Delete of Artist
-    public boolean archiveById(int id);
+    boolean archiveById(int id);
 
     // Restore After Soft Delete
-    public boolean restoreById(int id);
+    boolean restoreById(int id);
 
     // Search Artist by Keyword
-    public List<Artist> searchByName(String keyword);
+    List<Artist> searchByName(String keyword);
+
+    Artist findById(int id);
+
 }

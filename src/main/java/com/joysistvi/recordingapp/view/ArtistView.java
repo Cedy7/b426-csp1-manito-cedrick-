@@ -2,12 +2,10 @@ package com.joysistvi.recordingapp.view;
 
 import com.joysistvi.recordingapp.model.Artist;
 import com.joysistvi.recordingapp.service.ArtistService;
-
 import java.util.List;
 import java.util.Scanner;
 
 public class ArtistView {
-
     private final ArtistService artistService;
     private final Scanner scanner;
 
@@ -16,203 +14,205 @@ public class ArtistView {
         this.scanner = scanner;
     }
 
-    // Read Artists
-    public void displayAllArtist() {
-        List<Artist> artists = artistService.getAllActiveArtist();
+    public void handleMenu() {
+        while (true) {
+            System.out.println("\n=== ARTIST MANAGEMENT ===");
+            System.out.println("1. View All Active Artists");
+            System.out.println("2. Create Artist");
+            System.out.println("3. Update Artist");
+            System.out.println("4. Search Artists");
+            System.out.println("5. Archive Artist");
+            System.out.println("6. Restore Artist");
+            System.out.println("7. Delete Artist");
+            System.out.println("0. Back");
 
-
-        System.out.println("\n----- Artists -----");
-        System.out.printf("%-4s %-20s%n", "ID", "Artist Name");
-
-
-        if (artists == null || artists.isEmpty()) {
-            System.out.println("No active artists found.");
-            return;
+            int choice = promptForInt("Choose an option: ");
+            switch (choice) {
+                case 1:
+                    displayAllArtists();
+                    break;
+                case 2:
+                    promptCreateArtist();
+                    break;
+                case 3:
+                    promptUpdateArtist();
+                    break;
+                case 4:
+                    promptSearchArtists();
+                    break;
+                case 5:
+                    promptArchiveArtist();
+                    break;
+                case 6:
+                    promptRestoreArtist();
+                    break;
+                case 7:
+                    promptDeleteArtist();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
         }
-
-        for (Artist artist : artists) {
-            System.out.printf("%-4d %-20s%n",
-                    artist.getId(),
-                    artist.getName());
-        }
-
     }
 
-    // Read Artists(Inside archive)
-    public void displayAllArchivedArtist() {
-        List<Artist> artists = artistService.getAllArchivedArtists();
-
-
-        System.out.println("\n----- Archived Artists -----");
-        System.out.printf("%-4s %-20s%n", "ID", "Artist Name");
-
-
-        if (artists == null || artists.isEmpty()) {
-            System.out.println("No active artists found.");
-            return;
-        }
-
-        for (Artist artist : artists) {
-            System.out.printf("%-4d %-20s%n",
-                    artist.getId(),
-                    artist.getName());
-        }
-
+    public void displayAllArtists() {
+        printArtistTable("\n----- Active Artists -----", artistService.getAllActiveArtists(), "No active artists found.");
     }
 
-
-    // Create Artist
     public void promptCreateArtist() {
-        System.out.println("\n----- Create New Artist -----");
-        System.out.println("Enter artist name: ");
+        System.out.println("\n=== CREATE Artist ===");
+        System.out.print("Enter artist name: ");
         String name = scanner.nextLine();
 
         boolean created = artistService.createArtist(name);
-
         if (created) {
-            System.out.println("Artist " + name.trim() + " created successfully");
+            System.out.println("Artist '" + name.trim() + "' created successfully!");
         } else {
             System.out.println("Failed to create artist.");
         }
     }
 
-    // Update Artist
     public void promptUpdateArtist() {
-        System.out.print("\n----- Update Artist -----");
-        System.out.print("\nEnter ID of artist you want to update: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // clears the leftover '\n' from pressing Enter
+        System.out.println("\n=== UPDATE Artist ===");
+        displayAllArtists();
+        int id = promptForInt("Enter artist ID to update: ");
 
-        System.out.println("\nEnter the Name that you want instead for that ID: ");
+        Artist current = artistService.getArtistById(id);
+
+        if (current == null) {
+            System.out.println("Artist not found or invalid ID.");
+            return;
+        }
+
+
+        System.out.print("Enter new artist name (press Enter to keep current [Jareth]):");
         String name = scanner.nextLine();
 
+        if (name.trim().isEmpty()) {
+            name = current.getName();
+        } else {
+            name = name.trim();
+        }
+
         boolean updated = artistService.updateArtist(id, name);
+        if (updated) {
+            System.out.println("Artist updated successfully!");
+        } else {
+            System.out.println("No artist updated (check ID or input).");
+        }
 
         if (updated) {
-            System.out.println("\nArtist ID " + id + " updated successfully!");
-//             viewAllArtists();
-        } else {
-            System.out.println("\nNo artist found with ID " + id + ".");
+            System.out.println();
+            displayAllArtists();
         }
-
     }
 
-    // Hard Delete of Artist
     public void promptDeleteArtist() {
-        System.out.println("\n----- Delete Artist -----");
-        System.out.print("\nEnter ID of artist you want to delete permanently: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("\n=== DELETE Artist ===");
+        displayAllArtists();
+        int id = promptForInt("Enter artist ID to delete: ");
 
         boolean deleted = artistService.deleteArtist(id);
-
         if (deleted) {
-            System.out.println("\nArtist ID " + id + " deleted successfully!");
-//            viewAllArtists();
+            System.out.println("Artist ID " + id + " deleted successfully!");
         } else {
-            System.out.println("\nNo artist found with ID " + id + ".");
+            System.out.println("No artist deleted (check ID or input).");
         }
     }
 
-    // Soft Delete of Artist
     public void promptArchiveArtist() {
-        System.out.println("\n----- Archive Artist -----");
-        System.out.print("\nEnter ID of artist you want to archive or delete temporarily: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("\n=== ARCHIVE Artist ===");
+        displayAllArtists();
+        int id = promptForInt("Enter artist ID to archive: ");
 
         boolean archived = artistService.archiveArtist(id);
-
         if (archived) {
-            System.out.println("\nArtist ID " + id + " archived successfully!");
-//           viewAllArtists();
+            System.out.println("Artist ID " + id + " archived successfully!");
         } else {
-            System.out.println("\nNo artist found with ID " + id + ".");
+            System.out.println("No artist archived (check ID or input).");
         }
-
     }
 
-    // Restore After Soft Delete
     public void promptRestoreArtist() {
+        System.out.println("\n=== RESTORE Artist ===");
         List<Artist> archivedArtists = artistService.getAllArchivedArtists();
+        printArtistTable("\n----- Archived Artists -----", archivedArtists, "No archived artists found.");
 
         if (archivedArtists == null || archivedArtists.isEmpty()) {
-            System.out.println("There is no artist in archive!\nProgram Terminated!");
             return;
-        } else {
-            displayAllArchivedArtist();
         }
 
-        System.out.print("\n----- Restore Archived Artist -----");
-        System.out.print("\nEnter ID of artist you want to restore from archive:");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-
+        int id = promptForInt("Enter artist ID to restore: ");
         boolean restored = artistService.restoreArtist(id);
-
         if (restored) {
-            System.out.println("\nArtist ID " + id + " restored successfully!");
-//            viewAllArtists();
+            System.out.println("Artist ID " + id + " restored successfully!");
         } else {
-            System.out.println("\nNo artist found with ID " + id + ".");
+            System.out.println("No archived artist restored (check ID or input).");
         }
     }
 
-    // Search Artist by Keyword
     public void promptSearchArtists() {
-        System.out.print("\n----- Search Artist with Keyword -----");
-        System.out.print("\nGive the keyword name of artist you wanna search: ");
+        System.out.println("\n=== SEARCH Artists ===");
+        System.out.print("Enter search keyword: ");
         String keyword = scanner.nextLine();
 
-        List<Artist> artists = artistService.searchArtists(keyword);
+        List<Artist> matches = artistService.searchArtists(keyword);
+        printArtistTable("\n----- Search Results (Keyword: '" + keyword.trim() + "') -----",
+                matches, "No matching active artists found.");
+    }
 
-        String cleanKeyword = (keyword == null) ? "" : keyword.trim();
-        System.out.println("\n----- Search Artists (Keyword: '" + cleanKeyword + "') -----");
-        System.out.printf("%-4s %-25s%n", "ID", "Artist Name");
+
+
+    private void printArtistTable(String header, List<Artist> artists, String emptyMessage) {
+        String border = "+------+---------------------------+";
+
+        System.out.println("\n" + header);
+        System.out.println(border);
+        System.out.printf("| %-4s | %-25s |%n", "ID", "Artist Name");
+        System.out.println(border);
 
         if (artists == null || artists.isEmpty()) {
-            System.out.println("No matching active artists found.");
+            String message = (emptyMessage != null && !emptyMessage.isEmpty())
+                    ? emptyMessage
+                    : "No artists found.";
+            System.out.printf("| %-32s |%n", truncate(message, 32));
+            System.out.println(border);
             return;
         }
 
         for (Artist artist : artists) {
-            System.out.printf("%-4d %-25s%n",
-                    artist.getId(),
-                    artist.getName());
+            String name = artist.getName() != null ? artist.getName() : "";
+            System.out.printf("| %-4d | %-25s |%n", artist.getId(), truncate(name, 25));
         }
+
+        System.out.println(border);
     }
 
+    private String truncate(String text, int maxLength) {
+        if (text == null) {
+            return "";
+        }
+        if (text.length() <= maxLength) {
+            return text;
+        }
+        if (maxLength <= 3) {
+            return text.substring(0, maxLength);
+        }
+        return text.substring(0, maxLength - 3) + "...";
+    }
+
+    private int promptForInt(String promptMessage) {
+        while (true) {
+            System.out.print(promptMessage);
+            String input = scanner.nextLine().trim();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
 }
- /*
- System.out.println("=== Initial Artists (READ) ===");
-System.out.println("\n=== Create New Artist (CREATE) ===");
-
-
-
-
-Repository
-     │
-     ▼
-Service
-     │
-     ▼
-View
-     │
-     ▼
-Main Application
-
-Dependency Wiring:
-Repository --> Service --> View --> main()
-
-Example:
-ArtistRepositoryImpl
-        │
-        ▼
-ArtistServiceImpl
-        │
-        ▼
-ArtistView
-        │
-        ▼
-Main.main()
-  */

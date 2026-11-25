@@ -77,6 +77,7 @@ public class AlbumServiceImpl implements AlbumService {
             return new ArrayList<>();
         }
 
+
         List<Album> results = albumRepository.searchByName(keyword.trim());
         return results != null ? results : new ArrayList<>();
     }
