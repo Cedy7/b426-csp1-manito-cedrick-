@@ -42,7 +42,7 @@ public class ArtistServiceImpl implements ArtistService {
             return false;
         }
         Artist updated = new Artist(id, name.trim());
-        return artistRepository.update(updated);
+        return artistRepository.update(updated.getId(), updated);
     }
 
     @Override

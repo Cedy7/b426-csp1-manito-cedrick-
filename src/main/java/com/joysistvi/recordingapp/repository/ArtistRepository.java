@@ -33,6 +33,5 @@ public interface ArtistRepository {
     // Search Artist by Keyword
     List<Artist> searchByName(String keyword);
 
-    Artist findById(int id);
-
+    Artist findById(int id); // additional method
 }

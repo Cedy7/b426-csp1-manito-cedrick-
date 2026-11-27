@@ -1,6 +1,7 @@
 package com.joysistvi.recordingapp.repository;
 
 import com.joysistvi.recordingapp.model.Album;
+import com.joysistvi.recordingapp.model.Artist;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface AlbumRepository {
     boolean archiveById(int id);
     boolean restoreById(int id);
     List<Album> searchByName(String keyword);
+    //Album findById(int id);
 }

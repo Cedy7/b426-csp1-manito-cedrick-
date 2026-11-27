@@ -24,7 +24,7 @@ public class ArtistRepositoryImpl implements ArtistRepository{
     @Override
     public List<Artist> findAllActive() {
         List<Artist> artists = new ArrayList<>();
-        String query = "SELECT * FROM artists WHERE is_archived = 0";
+        String query = "SELECT id, name FROM artists WHERE is_archived = 0 ORDER BY id ASC";
 
         try (Connection connection = dbConnection.connect();
              Statement statement = connection.createStatement();

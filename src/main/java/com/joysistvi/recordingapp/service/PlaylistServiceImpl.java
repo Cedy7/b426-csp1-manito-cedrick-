@@ -110,7 +110,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     public List<Song> getSongsInPlaylist(int playlistId) {
         if (playlistId <= 0) {
             System.out.println("Validation Error: Playlist ID must be positive.");
-            return new ArrayList<>();
+            return new ArrayList<>(); // to avoid NullPointerException
+            // empty list
         }
 
 
@@ -118,6 +119,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         if (results != null) {
             return results;
         } else {
+            System.out.println("Error: Returns Nothing");
             return new ArrayList<>();
         }
     }

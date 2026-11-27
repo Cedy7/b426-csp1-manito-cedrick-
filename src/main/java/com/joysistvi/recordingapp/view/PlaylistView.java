@@ -78,20 +78,36 @@ public class PlaylistView {
             printSongListTable("----- Current Songs in Playlist -----", songs);
         }
     }
+//
+//    public void promptDeleteUserPlaylist(int userId) {
+//        System.out.println("\n--- Delete Playlist ---");
+//        List<Playlist> userPlaylists = playlistService.archivePlaylist(userId);
+//        if (userPlaylists.isEmpty()) {
+//            System.out.println("No playlist found to delete.");
+//            return;
+//        }
+//
+//        Playlist playlist = userPlaylists.get(0);
+//        if (playlistService.deletePlaylist(playlist.getId())) {
+//            System.out.println("Playlist \"" + playlist.getName() + "\" deleted successfully.");
+//        } else {
+//            System.out.println("Failed to delete playlist.");
+//        }
+//    }
 
     public void promptDeleteUserPlaylist(int userId) {
-        System.out.println("\n--- Delete Playlist ---");
+        System.out.println("\n--- Archive Playlist ---");
         List<Playlist> userPlaylists = playlistService.getPlaylistsByUser(userId);
-        if (userPlaylists.isEmpty()) {
-            System.out.println("No playlist found to delete.");
+        if (userPlaylists == null || userPlaylists.isEmpty()) {
+            System.out.println("No playlist found to archive.");
             return;
         }
 
         Playlist playlist = userPlaylists.get(0);
-        if (playlistService.deletePlaylist(playlist.getId())) {
-            System.out.println("Playlist \"" + playlist.getName() + "\" deleted successfully.");
+        if (playlistService.archivePlaylist(playlist.getId())) {
+            System.out.println("Playlist \"" + playlist.getName() + "\" archived successfully.");
         } else {
-            System.out.println("Failed to delete playlist.");
+            System.out.println("Failed to archive playlist.");
         }
     }
 
@@ -114,7 +130,7 @@ public class PlaylistView {
             int choice = promptForInt("Choose an option: ");
             switch (choice) {
                 case 1:
-                    printAvailableSongsTable("----- Available Songs -----", songService.getAllActiveSongs());
+                    printSongListTable("----- Available Songs -----", songService.getAllActiveSongs());
                     int addSongId = promptForInt("Enter song ID to add: ");
                     if (playlistService.addSongToPlaylist(playlist.getId(), addSongId)) {
                         System.out.println("Song added to playlist.");
@@ -140,10 +156,6 @@ public class PlaylistView {
         }
     }
 
-    private void printAvailableSongsTable(String header, List<Song> songs) {
-        printSongListTable(header, songs);
-    }
-
     private void printSongListTable(String header, List<Song> songs) {
         String border = "+-------+------------------------+-----------------+----------+----------------------+";
 
@@ -164,7 +176,7 @@ public class PlaylistView {
             String genre = s.getGenre() != null ? s.getGenre() : "";
             String album = s.getAlbumName() != null ? s.getAlbumName() : "";
 
-            System.out.printf("| %-5d | %-22s | %-15s | %-8d | %-20s |%n",
+            System.out.printf("| %-5d | %-22s | %-15s | %-8s | %-20s |%n",
                     s.getId(),
                     truncate(title, 22),
                     truncate(genre, 15),
