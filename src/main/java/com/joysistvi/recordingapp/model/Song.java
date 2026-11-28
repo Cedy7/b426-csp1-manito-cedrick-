@@ -12,6 +12,7 @@ public class Song {
     public Song() {
     }
 
+    // constructor overloading
     public Song(int id, String title, String genre, String length, int albumId, String albumName) {
         this.id = id;
         this.title = title;
@@ -21,7 +22,8 @@ public class Song {
         this.albumName = albumName;
     }
 
-    public Song(int id, String title, String genre, String length, int durationSeconds, int albumId, String albumName, boolean archived) {
+    // constructor overloading
+    public Song(int id, String title, String genre, String length, int albumId, String albumName, boolean archived) {
         this.id = id;
         this.title = title;
         this.genre = genre;

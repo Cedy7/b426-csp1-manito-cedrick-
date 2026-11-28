@@ -17,14 +17,13 @@ public class Album {
         this.year = year;
         this.artistId = artistId;
         this.artistName = artistName;
-
     }
 
+    // constructor overloading
     public Album(String name, int year, int artistId) {
         this.name = name;
         this.year = year;
         this.artistId = artistId;
-
     }
 
     public int getId() {

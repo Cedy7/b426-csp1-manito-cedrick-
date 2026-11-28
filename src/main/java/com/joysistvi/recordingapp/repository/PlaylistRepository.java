@@ -2,7 +2,6 @@ package com.joysistvi.recordingapp.repository;
 
 import com.joysistvi.recordingapp.model.Playlist;
 import com.joysistvi.recordingapp.model.Song;
-
 import java.util.List;
 
 public interface PlaylistRepository {
@@ -15,9 +14,7 @@ public interface PlaylistRepository {
     boolean restoreById(int id);
     List<Playlist> searchByName(String keyword);
 
-
     //Additional Methods
-
     // Fetches all active songs assigned to a given playlist via the playlist_songs junction table
     // (used when viewing a playlist or listing current songs before removing one).
     List<Song> findSongsByPlaylistId(int playlistId);

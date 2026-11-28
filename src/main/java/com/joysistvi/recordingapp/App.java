@@ -1,16 +1,11 @@
 package com.joysistvi.recordingapp;
 
 import com.joysistvi.recordingapp.config.DbConnection;
-import com.joysistvi.recordingapp.model.Playlist;
 import com.joysistvi.recordingapp.model.User;
 import com.joysistvi.recordingapp.repository.*;
 import com.joysistvi.recordingapp.service.*;
 import com.joysistvi.recordingapp.view.*;
-
-import java.sql.SQLOutput;
 import java.util.Scanner;
-
-// Role-Based Access Control (RBAC)  ADMIN vs. USER
 
 // Entry Point
 public class App {
@@ -22,6 +17,7 @@ public class App {
     private final SongView songView;
     private final PlaylistView playlistView;
 
+    // constructors
     public App(Scanner scanner, UserView userView, ArtistView artistView, AlbumView albumView, SongView songView, PlaylistView playlistView) {
         this.scanner = scanner;
         this.userView = userView;
@@ -61,17 +57,15 @@ public class App {
         PlaylistService playlistService = new PlaylistServiceImpl(playlistRepository);
         PlaylistView playlistView = new PlaylistView(playlistService, songService, scanner);
 
-
         App app = new App(scanner, userView, artistView, albumView, songView, playlistView);
         app.run();
 
         scanner.close();
-
-
+        
     }
 
+    // here is where the program will start running
     public void run() {
-
         while (true) {
             User currentUser = showAuthMenuAndAuthenticate();
             if (currentUser == null) {
@@ -89,9 +83,8 @@ public class App {
             System.out.println("\nLogged out " + currentUser.getUsername() + ".");
         }
     }
-
-
-    // Authorization vs Authentication
+    
+    // user interface for admin only
     private void adminDashboard(){
         while (true) {
             System.out.println("\n=== ADMIN DASHBOARD ===");
@@ -114,13 +107,11 @@ public class App {
         }
     }
 
-
-
-
+    // user interface for ordinary users of app
     private void userDashboard(User currentUser) {
         while (true) {
             System.out.println("\n=== USER DASHBOARD ===");
-            System.out.println("1. Browse Artists, Albums, Songs");
+            System.out.println("1. Browse Artists, Albums, and Songs");
             System.out.println("2. Search Songs");
             System.out.println("3. Manage Playlist");
             System.out.println("4. Add / Remove Songs in Playlist");
@@ -139,6 +130,8 @@ public class App {
         }
     }
 
+    // belongs to user dashboard
+    // for browsing artist, albums, and songs
     private void browseCatalog() {
         while (true) {
             System.out.println("\n=== BROWSE CATALOG ===");
@@ -158,8 +151,10 @@ public class App {
             }
         }
     }
-
-
+    
+    // Method for Role-Based Access Control (RBAC)  ADMIN vs. USER
+    // Method below here is where everything start, because the program will determine if the one 
+    // who is interacting with itself is regular User or Admin with administrative privilege
     private User showAuthMenuAndAuthenticate() {
         clearScreen();
         while (true) {
@@ -189,10 +184,9 @@ public class App {
             }
         }
     }
-
-
-
-
+    
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer  
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);
@@ -204,46 +198,11 @@ public class App {
             }
         }
     }
-
-
-
+    
     // Clears the console using ANSI escape codes. Works in real terminals and in
     // IntelliJ's Run console IF "Emulate terminal in output console" is enabled.
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
 }
-
-
-// APPLICATION FLOW
-
-/*
-// APPLICATION FLOW
-    Repository
-     │
-     ▼
-    Service
-     │
-     ▼
-    View
-     │
-     ▼
-    Main Application
-
-Dependency Wiring:
-Repository --> Service --> View --> main()
-
-Example:
-ArtistRepositoryImpl
-        │
-        ▼
-ArtistServiceImpl
-        │
-        ▼
-ArtistView
-        │
-        ▼
-App.main()
- */

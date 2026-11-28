@@ -2,11 +2,9 @@ package com.joysistvi.recordingapp.repository;
 
 import com.joysistvi.recordingapp.config.DbConnection;
 import com.joysistvi.recordingapp.model.Artist;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 // Repository(Data Tier) -> Data Access Logic and Data Persistence
 public class ArtistRepositoryImpl implements ArtistRepository{
@@ -30,15 +28,10 @@ public class ArtistRepositoryImpl implements ArtistRepository{
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
-//            System.out.println("\n----- Artists -----");
-//            System.out.printf("%-4s %-20s%n", "ID", "Artist Name");
-
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 artists.add(new Artist(id, name));
-
-                //System.out.printf("%-4d %-20s%n", id, name);
             }
 
         } catch (SQLException e) {
@@ -47,8 +40,6 @@ public class ArtistRepositoryImpl implements ArtistRepository{
         return artists;
     }
 
-    // !!! this will be used for promptRestoreArtist() !!!
-    // !!! still not tested !!!
     // Read Artists(Inside archive)
     @ Override
     public List<Artist> findAllArchived() {
@@ -70,7 +61,6 @@ public class ArtistRepositoryImpl implements ArtistRepository{
         return artists;
     }
 
-
     // Create Artist
     @Override
     public boolean save(Artist artists) {
@@ -81,10 +71,8 @@ public class ArtistRepositoryImpl implements ArtistRepository{
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setString(1, artists.getName().trim());
-
             return preparedStatement.executeUpdate() > 0;
 
-           // System.out.println("\nArtist: " + artist.getName().trim() + " created successfully!");
         } catch (SQLException e) {
             System.out.println("\nCreate Artist Error: " + e.getMessage());
             return false;
@@ -104,14 +92,8 @@ public class ArtistRepositoryImpl implements ArtistRepository{
             preparedStatement.setInt(2, id);
 
             int rowsAffected = preparedStatement.executeUpdate();
-
             return rowsAffected > 0;
-//            if (rowsAffected > 0) {
-//                System.out.println("\nArtist ID " + id + " updated successfully!");
-//                viewAllArtists();
-//            } else {
-//                System.out.println("\nNo artist found with ID " + id + ".");
-//            }
+
         } catch (SQLException e) {
             System.out.println("\nUpdate Artist Error: " + e.getMessage());
             return false;
@@ -130,15 +112,8 @@ public class ArtistRepositoryImpl implements ArtistRepository{
             preparedStatement.setInt(1, id);
 
             int rowsAffected = preparedStatement.executeUpdate();
-
             return rowsAffected > 0;
 
-//            if (rowsAffected > 0) {
-//                System.out.println("\nArtist ID " + id + " deleted successfully!");
-////                viewAllArtists();
-//            } else {
-//                System.out.println("\nNo artist found with ID " + id + ".");
-//            }
         } catch (SQLException e) {
             System.out.println("\nDelete Artist Error: " + e.getMessage());
             return false;
@@ -157,20 +132,13 @@ public class ArtistRepositoryImpl implements ArtistRepository{
             preparedStatement.setInt(1, id);
 
             int rowsAffected = preparedStatement.executeUpdate();
-
             return rowsAffected > 0;
-//            if (rowsAffected > 0) {
-//                System.out.println("\nArtist ID " + id + " archived successfully!");
-////                viewAllArtists();
-//            } else {
-//                System.out.println("\nNo artist found with ID " + id + ".");
-//            }
+
         } catch (SQLException e) {
             System.out.println("\nArchive Artist Error: " + e.getMessage());
             return false;
         }
     }
-
 
     // Restore After Soft Delete
     @Override
@@ -179,19 +147,11 @@ public class ArtistRepositoryImpl implements ArtistRepository{
 
         try (Connection connection = dbConnection.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
             preparedStatement.setInt(1, id);
 
             int rowsAffected = preparedStatement.executeUpdate();
-
             return rowsAffected > 0;
 
-//            if (rowsAffected > 0) {
-//                System.out.println("\nArtist ID " + id + " restored successfully!");
-////                viewAllArtists();
-//            } else {
-//                System.out.println("\nNo artist found with ID " + id + ".");
-//            }
         } catch (SQLException e) {
             System.out.println("\nRestore Artist Error: " + e.getMessage());
             return false;
@@ -227,14 +187,12 @@ public class ArtistRepositoryImpl implements ArtistRepository{
 
     @Override
     public Artist findById(int id) {
-
         String query = "SELECT * FROM artists WHERE id = ? and is_archived = 0";
 
         try (Connection conn = dbConnection.connect();
              PreparedStatement prep = conn.prepareStatement(query)){
 
             prep.setInt(1, id);
-
 
             try (ResultSet res = prep.executeQuery()) {
                 if (res.next()) {
@@ -248,5 +206,4 @@ public class ArtistRepositoryImpl implements ArtistRepository{
 
         return null;
     }
-
 }

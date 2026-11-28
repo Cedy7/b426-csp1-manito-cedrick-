@@ -14,6 +14,9 @@ public class SongView {
         this.scanner = scanner;
     }
 
+
+    // Dashboard for songs management
+    // that can only be access by Admin
     public void handleMenu() {
         while (true) {
             System.out.println("\n=== SONG MANAGEMENT ===");
@@ -58,10 +61,16 @@ public class SongView {
         }
     }
 
+
+    // Method to display all of registered songs of our program
+    // that can be access by both User and Admin 
     public void displayAllSongs() {
         printSongListTable("----- Active Songs -----", songService.getAllActiveSongs());
     }
 
+
+    // Method to create a new song inside our program
+    // that can only be access by Admin
     public void promptCreateSong() {
         System.out.println("\n--- Create Song ---");
         System.out.print("Enter song title: ");
@@ -79,6 +88,8 @@ public class SongView {
         }
     }
 
+    // Method to update a registered song inside our program
+    // that can only be access by Admin
     public void promptUpdateSong() {
         System.out.println("\n--- Update Song ---");
         int id = promptForInt("Enter song ID to update: ");
@@ -97,6 +108,9 @@ public class SongView {
         }
     }
 
+
+    // Method to search a registered song inside our program
+    // that can be access by both User and Admin
     public void promptSearchSongs() {
         System.out.println("\n--- Search Songs ---");
         System.out.print("Enter keyword: ");
@@ -104,6 +118,8 @@ public class SongView {
         printSongListTable("----- Search Results -----", songService.searchSongs(keyword));
     }
 
+    // Method to archive, temporary delete, or soft delete a registered song inside our program
+    // that can only be access by Admin
     public void promptArchiveSong() {
         System.out.println("\n--- Archive Song ---");
         int id = promptForInt("Enter song ID to archive: ");
@@ -114,6 +130,9 @@ public class SongView {
         }
     }
 
+    // Method to restore an archived song inside our program
+    // to make it visible again to official list
+    // that can only be access by Admin
     public void promptRestoreSong() {
         System.out.println("\n--- Restore Song ---");
         List<Song> archived = songService.getAllArchivedSongs();
@@ -130,6 +149,9 @@ public class SongView {
         }
     }
 
+
+    // Method to permanently delete, or hard delete a song inside our program
+    // that can only be access by Admin
     public void promptDeleteSong() {
         System.out.println("\n--- Delete Song ---");
         int id = promptForInt("Enter song ID to delete permanently: ");
@@ -184,6 +206,8 @@ public class SongView {
         return text.substring(0, maxLength - 3) + "...";
     }
 
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);

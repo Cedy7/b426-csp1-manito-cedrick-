@@ -1,7 +1,6 @@
 package com.joysistvi.recordingapp.repository;
 
 import com.joysistvi.recordingapp.model.Artist;
-
 import java.util.List;
 
 // Repository(Data Tier) -> Data Access Logic and Data Persistence
@@ -10,8 +9,6 @@ public interface ArtistRepository {
     // Read Artists(Not inside archive)
     List<Artist> findAllActive();
 
-    // !!! this will be used for promptRestoreArtist() !!!
-    // !!! still not tested !!!
     // Read Artists(Inside archive)
     List<Artist> findAllArchived();
 

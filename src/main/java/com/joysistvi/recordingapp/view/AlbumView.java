@@ -9,11 +9,14 @@ public class AlbumView {
     private final AlbumService albumService;
     private final Scanner scanner;
 
+    // constructor
     public AlbumView(AlbumService albumService, Scanner scanner) {
         this.albumService = albumService;
         this.scanner = scanner;
     }
 
+    // Dashboard for album management
+    // that can only be access by Admin
     public void handleMenu() {
         while (true) {
             System.out.println("\n=== MANAGE ALBUMS ===");
@@ -42,10 +45,14 @@ public class AlbumView {
         }
     }
 
+    // Method to display all of registered album of our program
+    // that can be access by both User and Admin
     public void displayAllAlbums() {
         printAlbumTable("\n----- Active Albums -----", albumService.getAllActiveAlbums(), "No active albums found.");
     }
 
+    // Method to create a new album inside our program
+    // that can only be access by Admin
     public void promptCreateAlbum() {
         System.out.println("\n=== CREATE Album ===");
         System.out.print("Enter album name: ");
@@ -61,6 +68,9 @@ public class AlbumView {
         }
     }
 
+
+    // Method to update a registered album inside our program
+    // that can only be access by Admin
     public void promptUpdateAlbum() {
         System.out.println("\n=== UPDATE Album ===");
         displayAllAlbums();
@@ -78,6 +88,8 @@ public class AlbumView {
         }
     }
 
+    // Method to permanently delete, or hard delete an album inside our program
+    // that can only be access by Admin
     public void promptDeleteAlbum() {
         System.out.println("\n=== DELETE Album ===");
         displayAllAlbums();
@@ -91,6 +103,8 @@ public class AlbumView {
         }
     }
 
+    // Method to archive, temporary delete, or soft delete a registered album inside our program
+    // that can only be access by Admin
     public void promptArchiveAlbum() {
         System.out.println("\n=== ARCHIVE Album ===");
         displayAllAlbums();
@@ -104,6 +118,10 @@ public class AlbumView {
         }
     }
 
+
+    // Method to restore an archived album of our program
+    // to make it visible again to official list
+    // that can only be access by Admin
     public void promptRestoreAlbum() {
         System.out.println("\n=== RESTORE Album ===");
         List<Album> archivedAlbums = albumService.getAllArchivedAlbums();
@@ -122,6 +140,8 @@ public class AlbumView {
         }
     }
 
+    // Method to search a registered album inside our program
+    // that can only be access by Admin
     public void promptSearchAlbums() {
         System.out.println("\n=== SEARCH Albums ===");
         System.out.print("Enter search keyword: ");
@@ -170,6 +190,8 @@ public class AlbumView {
         return text.substring(0, maxLength - 3) + "...";
     }
 
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);

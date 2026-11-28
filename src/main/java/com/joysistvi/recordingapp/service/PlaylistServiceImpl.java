@@ -104,16 +104,13 @@ public class PlaylistServiceImpl implements PlaylistService {
         return playlistRepository.searchByName(keyword.trim());
     }
 
-
     // Used findSongsByPlaylistId
     @Override
     public List<Song> getSongsInPlaylist(int playlistId) {
         if (playlistId <= 0) {
             System.out.println("Validation Error: Playlist ID must be positive.");
-            return new ArrayList<>(); // to avoid NullPointerException
-            // empty list
+            return new ArrayList<>();
         }
-
 
         List<Song> results = playlistRepository.findSongsByPlaylistId(playlistId);
         if (results != null) {
@@ -149,5 +146,4 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
         return playlistRepository.removeSongFromPlaylist(playlistId, songId);
     }
-
 }

@@ -11,6 +11,7 @@ public class User {
     public User() {
     }
 
+    // constructor overloading
     public User(int id, String username, String password, String email, String role) {
         this.id = id;
         this.username = username;
@@ -20,6 +21,7 @@ public class User {
 
     }
 
+    // constructor overloading
     public User(String username, String password, String email, String role) {
         this.username = username;
         this.password = password;

@@ -13,6 +13,9 @@ public class UserView {
         this.userService = userService;
         this.scanner = scanner;
     }
+
+    // Dashboard for user management
+    // that can only be access by Admin
     public void handleMenu() {
         while (true) {
             System.out.println("\n=== USERS MANAGEMENT ===");
@@ -57,6 +60,7 @@ public class UserView {
         }
     }
 
+    // Login interface 
     public User promptLogin() {
         System.out.println("\n=== LOGIN ===");
         System.out.print("Enter username: ");
@@ -65,6 +69,8 @@ public class UserView {
         String password = scanner.nextLine();
 
         User loggedIn = userService.loginUser(username, password);
+        
+        // guard clause
         if (loggedIn != null) {
             System.out.println("Login successful! Welcome, " + loggedIn.getUsername() + " (" + loggedIn.getRole() + ").");
             return loggedIn;
@@ -74,6 +80,8 @@ public class UserView {
         return null;
     }
 
+    // Method to create or register new account inside our program
+    // that can be access by RECORDING STUDIO APP Menu or inside Admin's USER MANAGEMENT Menu
     public void promptCreateUser() {
         System.out.println("\n=== CREATE / REGISTER User ===");
         System.out.print("Enter username: ");
@@ -91,10 +99,15 @@ public class UserView {
         }
     }
 
+    // Method to display all of registered user of our program
+    // that can only be access by Admin
     public void displayAllUsers() {
         printUserTable("\n----- Active Users -----", userService.getAllActiveUsers(), "No active users found.");
     }
 
+
+    // Method to update a registered user inside our program
+    // that can only be access by Admin
     public void promptUpdateUser() {
         System.out.println("\n=== UPDATE User ===");
         displayAllUsers();
@@ -112,6 +125,8 @@ public class UserView {
         }
     }
 
+    // Method to search a registered user inside our program
+    // that can only be access by Admin
     public void promptSearchUsers() {
         System.out.println("\n=== SEARCH Users ===");
         System.out.print("Enter username keyword: ");
@@ -122,6 +137,8 @@ public class UserView {
                 matches, "No matching active users found.");
     }
 
+    // Method to archive, temporary delete, or soft delete a registered user inside our program
+    // that can only be access by Admin
     public void promptArchiveUser() {
         System.out.println("\n=== ARCHIVE User ===");
         displayAllUsers();
@@ -135,6 +152,10 @@ public class UserView {
         }
     }
 
+
+    // Method to restore an archived user of our program
+    // to make it visible again to official list
+    // that can only be access by Admin
     public void promptRestoreUser() {
         System.out.println("\n=== RESTORE User ===");
         List<User> archivedUsers = userService.getAllArchivedUsers();
@@ -153,6 +174,8 @@ public class UserView {
         }
     }
 
+    // Method to permanently delete, or hard delete a user inside our program
+    // that can only be access by Admin
     public void promptDeleteUser() {
         System.out.println("\n=== DELETE User ===");
         displayAllUsers();
@@ -211,6 +234,8 @@ public class UserView {
         return text.substring(0, maxLength - 3) + "...";
     }
 
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);

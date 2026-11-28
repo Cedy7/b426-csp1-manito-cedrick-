@@ -13,7 +13,9 @@ public class ArtistView {
         this.artistService = artistService;
         this.scanner = scanner;
     }
-
+    
+    // Dashboard for artist management
+    // that can only be access by Admin
     public void handleMenu() {
         while (true) {
             System.out.println("\n=== ARTIST MANAGEMENT ===");
@@ -58,10 +60,14 @@ public class ArtistView {
         }
     }
 
+    // Method to display all of registered artist of our program
+    // that can be access by both User and Admin
     public void displayAllArtists() {
         printArtistTable("\n----- Active Artists -----", artistService.getAllActiveArtists(), "No active artists found.");
     }
 
+    // Method to create a new artist inside our program
+    // that can only be access by Admin
     public void promptCreateArtist() {
         System.out.println("\n=== CREATE Artist ===");
         System.out.print("Enter artist name: ");
@@ -75,6 +81,9 @@ public class ArtistView {
         }
     }
 
+
+    // Method to update a registered artist inside our program
+    // that can only be access by Admin
     public void promptUpdateArtist() {
         System.out.println("\n=== UPDATE Artist ===");
         displayAllArtists();
@@ -109,6 +118,8 @@ public class ArtistView {
         }
     }
 
+    // Method to permanently delete, or hard delete an artist inside our program
+    // that can only be access by Admin
     public void promptDeleteArtist() {
         System.out.println("\n=== DELETE Artist ===");
         displayAllArtists();
@@ -122,6 +133,8 @@ public class ArtistView {
         }
     }
 
+    // Method to archive, temporary delete, or soft delete a registered artist inside our program
+    // that can only be access by Admin
     public void promptArchiveArtist() {
         System.out.println("\n=== ARCHIVE Artist ===");
         displayAllArtists();
@@ -134,7 +147,10 @@ public class ArtistView {
             System.out.println("No artist archived (check ID or input).");
         }
     }
-
+    
+    // Method to restore an archived artist of our program
+    // to make it visible again to official list
+    // that can only be access by Admin
     public void promptRestoreArtist() {
         System.out.println("\n=== RESTORE Artist ===");
         List<Artist> archivedArtists = artistService.getAllArchivedArtists();
@@ -153,6 +169,9 @@ public class ArtistView {
         }
     }
 
+
+    // Method to search a registered artist inside our program
+    // that can only be access by Admin
     public void promptSearchArtists() {
         System.out.println("\n=== SEARCH Artists ===");
         System.out.print("Enter search keyword: ");
@@ -203,6 +222,8 @@ public class ArtistView {
         return text.substring(0, maxLength - 3) + "...";
     }
 
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);

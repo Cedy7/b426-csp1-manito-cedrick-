@@ -2,7 +2,6 @@ package com.joysistvi.recordingapp.model;
 
 // Model(Presentation Tier) -> representing database entities
 public class Artist {
-
     private int id;
     private String name;
 
@@ -10,9 +9,10 @@ public class Artist {
         this.name = name;
     }
 
-    // additional constructor overloading
+    // constructor overloading
     public Artist(int id) { this.id = id; }
 
+    // constructor overloading
     public Artist(int id, String name) {
         this.id = id;
         this.name = name;

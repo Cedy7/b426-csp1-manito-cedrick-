@@ -19,6 +19,14 @@ public class PlaylistView {
         this.scanner = scanner;
     }
 
+    // can be access by User only for displaying dashboard of playlist
+    /* Disclaimer: 
+    // Admin isn't allowed to access this because administrative privilege 
+    // doesn't mean having a privilege to see and manipulate anyone's 
+    // property. Seeing regular user's playlist by admin is violation of 
+    // privacy, both local and international law, and CIA Triad's first 
+    // principle which is Confidentiality
+     */
     public void handleMenu(int userId) {
         this.currentUserId = userId;
         while (true) {
@@ -78,22 +86,6 @@ public class PlaylistView {
             printSongListTable("----- Current Songs in Playlist -----", songs);
         }
     }
-//
-//    public void promptDeleteUserPlaylist(int userId) {
-//        System.out.println("\n--- Delete Playlist ---");
-//        List<Playlist> userPlaylists = playlistService.archivePlaylist(userId);
-//        if (userPlaylists.isEmpty()) {
-//            System.out.println("No playlist found to delete.");
-//            return;
-//        }
-//
-//        Playlist playlist = userPlaylists.get(0);
-//        if (playlistService.deletePlaylist(playlist.getId())) {
-//            System.out.println("Playlist \"" + playlist.getName() + "\" deleted successfully.");
-//        } else {
-//            System.out.println("Failed to delete playlist.");
-//        }
-//    }
 
     public void promptDeleteUserPlaylist(int userId) {
         System.out.println("\n--- Archive Playlist ---");
@@ -111,9 +103,10 @@ public class PlaylistView {
         }
     }
 
-    // Additional Methods
+    // User's songs management dashboard(can't be access by admin)
     public void handleManageSongsInPlaylist(int userId) {
         List<Playlist> userPlaylists = playlistService.getPlaylistsByUser(userId);
+        // guard clause
         if (userPlaylists.isEmpty()) {
             System.out.println("\nNo playlist found for this user. Please create a playlist first.");
             return;
@@ -201,6 +194,8 @@ public class PlaylistView {
     }
 
 
+    // Helper Method for determining if input is valid and will throw a
+    // NumberFormatException if user's input is not an integer
     private int promptForInt(String promptMessage) {
         while (true) {
             System.out.print(promptMessage);

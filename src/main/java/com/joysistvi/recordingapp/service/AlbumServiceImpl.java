@@ -76,8 +76,6 @@ public class AlbumServiceImpl implements AlbumService {
             System.out.println("Validation Error: Search keyword cannot be blank.");
             return new ArrayList<>();
         }
-
-
         List<Album> results = albumRepository.searchByName(keyword.trim());
         return results != null ? results : new ArrayList<>();
     }

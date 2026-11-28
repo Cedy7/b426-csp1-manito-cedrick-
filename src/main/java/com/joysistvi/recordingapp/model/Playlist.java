@@ -10,6 +10,7 @@ public class Playlist {
     public Playlist() {
     }
 
+    // constructor overloading
     public Playlist(int id, String name, int userId, String username) {
         this.id = id;
         this.name = name;
@@ -17,6 +18,7 @@ public class Playlist {
         this.username = username;
     }
 
+    // constructor overloading
     public Playlist(int id, String name, int userId, String username, boolean archived) {
         this.id = id;
         this.name = name;

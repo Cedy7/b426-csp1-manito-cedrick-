@@ -3,7 +3,6 @@ package com.joysistvi.recordingapp.repository;
 
 import com.joysistvi.recordingapp.config.DbConnection;
 import com.joysistvi.recordingapp.model.Album;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ public class AlbumRepositoryImpl implements AlbumRepository{
     }
 
     // Read Albums(Not inside archive)
-
     @Override
     public List<Album> findAllActive() {
         List<Album> albums = new ArrayList<>();
